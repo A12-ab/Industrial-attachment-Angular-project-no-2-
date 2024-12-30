@@ -1,0 +1,6 @@
+<div style="padding: 20px;">
+    <h2>Parent to Child and Child to Parent Communication</h2>
+    <app-child [parentData]="messageToChild" (childEvent)="receiveChildData($event)"></app-child>
+    <p>Message from Child: {{ messageFromChild }}</p>
+</div>
+  
