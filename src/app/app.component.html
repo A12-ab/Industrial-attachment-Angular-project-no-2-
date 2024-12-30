@@ -1,10 +1,87 @@
-<nav>
-  <ul style="list-style-type: none; display: flex; gap: 15px; padding: 10px; background-color: #f4f4f4; margin: 0;">
-    <li><a routerLink="/" routerLinkActive="active">Home</a></li>
-    <li><a routerLink="/parent" routerLinkActive="active">Parent-Child</a></li>
-    <li><a routerLink="/api-data" routerLinkActive="active">API Data</a></li>
-  </ul>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-container">
+    <a href="/" class="navbar-logo">MyApp</a>
+    <ul class="navbar-menu">
+      <li><a href="#profile" class="navbar-item">Profile</a></li>
+      <li><a href="#search" class="navbar-item">Player Search</a></li>
+    </ul>
+  </div>
 </nav>
-<div style="padding: 20px;">
-  <router-outlet></router-outlet>
+
+<!-- Main Content -->
+<div class="container">
+  <h1 class="title">User Profile and Player Search</h1>
+
+  <!-- User Profile Form (Two-way binding) -->
+  <form (ngSubmit)="onSubmit()" class="form">
+    <div class="form-group">
+      <label for="name" class="form-label">Full Name</label>
+      <input
+        type="text"
+        id="name"
+        class="form-input"
+        [(ngModel)]="user.name"
+        name="name"
+        placeholder="Enter your full name"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="form-label">Email Address</label>
+      <input
+        type="email"
+        id="email"
+        class="form-input"
+        [(ngModel)]="user.email"  
+        name="email"
+        placeholder="Enter your email"
+        required
+      />
+    </div>
+
+    <button type="submit" class="submit-btn">Save Profile</button>
+  </form>
+
+  <!-- Display the profile info -->
+  <div *ngIf="user.name && user.email" class="profile-info">
+    <h2>Profile Info</h2>
+    <p><strong>Name:</strong> {{ user.name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+  </div>
+
+  <!-- Player Search -->
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Search for a player..."
+      class="search-input"
+    />
+    <button (click)="onSearch()" class="search-button">Search</button>
+  </div>
+
+  <!-- Error message if no player is found -->
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Player Results -->
+  <div *ngIf="players.length > 0" class="player-results">
+    <h3>Player Search Results</h3>
+    <div *ngFor="let player of players" class="player-card">
+      <img
+        *ngIf="player.strThumb"
+        [src]="player.strThumb"
+        [alt]="player.player_name"
+        class="player-image"
+      />
+      <div class="player-details">
+        <h4>{{ player.player_name }}</h4>
+        <p><strong>Team:</strong> {{ player.team_name }}</p>
+        <p><strong>Nationality:</strong> {{ player.nationality }}</p>
+      </div>
+    </div>
+  </div>
 </div>
